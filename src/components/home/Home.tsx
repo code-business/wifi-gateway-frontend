@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import AllDevices from "../allDevices/AllDevices";
 import Settings from "../settings/Settings";
 import Timeline from "../timeline/Timeline";
+import { getDevices } from "../../utils/service";
 
 interface SidebarTabProps {
   tabName: string;
@@ -27,12 +28,31 @@ const SidebarTab: React.FC<SidebarTabProps> = ({
   </div>
 );
 
+interface DataType {
+  deviceName: string;
+  deviceId: string;
+}
+
 const Home: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<string>("All Devices");
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
+  const [devices, setDevices] = useState<[DataType]>([
+    {
+      deviceId: "",
+      deviceName: "",
+    },
+  ]);
+  const [deviceId, setDeviceId] = useState<string>("");
   const navigate = useNavigate();
 
-  const fetchAllDevices = async () => {};
+  const fetchAllDevices = async () => {
+    try {
+      const data: [DataType] = await getDevices();
+      setDevices(data);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
 
   const handleSidebarClick = (tabName: string) => {
     console.log(`Clicked on ${tabName}`);
@@ -54,13 +74,9 @@ const Home: React.FC = () => {
     navigate("/login");
   };
 
-  const devices = [
-    {
-      _id: "65670229072cf7c935ff42df",
-      deviceName: "Wifi Gateway Device",
-      deviceId: "A4:CF:12:25:E2:30",
-    },
-  ];
+  useEffect(() => {
+    fetchAllDevices();
+  }, []);
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -130,9 +146,15 @@ const Home: React.FC = () => {
         {/* Main Content Sections */}
         <div>
           {selectedTab === "Timeline" ? (
-            <Timeline />
+            <Timeline deviceId={deviceId} />
           ) : selectedTab === "All Devices" ? (
-            <AllDevices data={devices} />
+            <AllDevices
+              data={devices}
+              onClick={(id: string) => {
+                setSelectedTab("Timeline");
+                setDeviceId(id);
+              }}
+            />
           ) : (
             <Settings />
           )}

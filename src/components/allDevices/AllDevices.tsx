@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Device {
   deviceName: string;
@@ -7,11 +8,12 @@ interface Device {
 
 interface AllDevicesProps {
   data: Device[];
+  onClick: (id: string) => void;
 }
 
 const PAGE_SIZE = 10;
 
-const AllDevices: React.FC<AllDevicesProps> = ({ data }) => {
+const AllDevices: React.FC<AllDevicesProps> = ({ data, onClick }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
@@ -23,6 +25,7 @@ const AllDevices: React.FC<AllDevicesProps> = ({ data }) => {
 
   const handleActionClick = (deviceId: string) => {
     console.log(`Button clicked for device with ID: ${deviceId}`);
+    onClick(deviceId);
   };
 
   return (

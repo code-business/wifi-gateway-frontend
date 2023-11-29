@@ -5,7 +5,7 @@ import {
   LOGIN_TEXT,
   LOGIN_BTN_SUBMIT,
   LOGIN_BTN_FORGOT,
-} from "../../utils/constants/constants";
+} from "../../utils/constants";
 import { useNavigate } from "react-router";
 
 const Login: React.FC = () => {
