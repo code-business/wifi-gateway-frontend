@@ -32,8 +32,13 @@ const Home: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const fetchAllDevices = async () => {};
+
   const handleSidebarClick = (tabName: string) => {
     console.log(`Clicked on ${tabName}`);
+    if (tabName === "All Devices") {
+      fetchAllDevices();
+    }
     setSelectedTab(tabName);
   };
 
@@ -48,6 +53,14 @@ const Home: React.FC = () => {
   const logout = () => {
     navigate("/login");
   };
+
+  const devices = [
+    {
+      _id: "65670229072cf7c935ff42df",
+      deviceName: "Wifi Gateway Device",
+      deviceId: "A4:CF:12:25:E2:30",
+    },
+  ];
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -119,7 +132,7 @@ const Home: React.FC = () => {
           {selectedTab === "Timeline" ? (
             <Timeline />
           ) : selectedTab === "All Devices" ? (
-            <AllDevices />
+            <AllDevices data={devices} />
           ) : (
             <Settings />
           )}
