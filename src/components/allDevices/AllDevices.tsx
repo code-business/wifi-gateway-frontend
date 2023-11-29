@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface Device {
   deviceName: string;
@@ -24,7 +23,6 @@ const AllDevices: React.FC<AllDevicesProps> = ({ data, onClick }) => {
   const totalPages = Math.ceil(data.length / PAGE_SIZE);
 
   const handleActionClick = (deviceId: string) => {
-    console.log(`Button clicked for device with ID: ${deviceId}`);
     onClick(deviceId);
   };
 

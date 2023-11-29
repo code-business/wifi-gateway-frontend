@@ -27,7 +27,6 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("Form Submitted", userInputData);
     navigate("/");
   };
 

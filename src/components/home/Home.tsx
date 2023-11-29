@@ -55,7 +55,6 @@ const Home: React.FC = () => {
   };
 
   const handleSidebarClick = (tabName: string) => {
-    console.log(`Clicked on ${tabName}`);
     if (tabName === "All Devices") {
       fetchAllDevices();
     }
