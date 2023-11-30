@@ -1,17 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/home/Home";
-import Login from "./components/auth/Login";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-function App() {
+import RtlLayout from "layouts/rtl";
+import AdminLayout from "layouts/admin";
+import AuthLayout from "layouts/auth";
+const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="auth/*" element={<AuthLayout />} />
+      <Route path="admin/*" element={<AdminLayout />} />
+      <Route path="rtl/*" element={<RtlLayout />} />
+      <Route path="/" element={<Navigate to="/admin" replace />} />
+    </Routes>
   );
-}
+};
 
 export default App;
