@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { getDevices } from "../../utils/service";
 import AllDevices from "../allDevices/AllDevices";
 import Timeline from "../timeline/Timeline";
+import { useSelector } from "react-redux";
 
 interface SidebarTabProps {
   tabName: string;
@@ -32,6 +33,10 @@ interface DataType {
   deviceId: string;
 }
 
+type RootState = {
+  deviceId: string;
+};
+
 const Home: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<string>("All Devices");
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
@@ -42,7 +47,9 @@ const Home: React.FC = () => {
     },
   ]);
   const [deviceId, setDeviceId] = useState<string>("");
+
   const navigate = useNavigate();
+  const heading = useSelector((state: RootState) => state.deviceId);
 
   const fetchAllDevices = async () => {
     try {
@@ -122,7 +129,7 @@ const Home: React.FC = () => {
           </button>
 
           {/* Logo */}
-          <div className="text-2xl font-bold text-white">Your Logo</div>
+          <div className="text-2xl font-bold text-white">{heading}</div>
 
           {/* Search input */}
           <div className="flex items-center">

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setDeviceId } from "../../utils/redux";
 
 interface Device {
   deviceName: string;
@@ -13,6 +15,7 @@ interface AllDevicesProps {
 const PAGE_SIZE = 10;
 
 const AllDevices: React.FC<AllDevicesProps> = ({ data, onClick }) => {
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
@@ -23,6 +26,7 @@ const AllDevices: React.FC<AllDevicesProps> = ({ data, onClick }) => {
   const totalPages = Math.ceil(data.length / PAGE_SIZE);
 
   const handleActionClick = (deviceId: string) => {
+    dispatch(setDeviceId(deviceId));
     onClick(deviceId);
   };
 

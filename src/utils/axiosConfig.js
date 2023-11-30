@@ -11,6 +11,7 @@ const customAxios = axios.create({
 // Request interceptor
 customAxios.interceptors.request.use(
   (config) => {
+    console.log(`API call`);
     // You can modify the request config here, such as adding headers
     // or handling authentication tokens
     return config;

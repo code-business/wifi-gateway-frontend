@@ -26,6 +26,24 @@ const Map: React.FC<MapProps> = ({ timeline }) => {
         }).addTo(mapInstance);
 
         mapRef.current = mapInstance;
+
+        // Get the user's current location and mark it on the map
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const currentLocationMarker = L.marker([latitude, longitude], {
+              icon: L.divIcon({
+                className: "current-location-marker",
+                html: "You are here",
+              }),
+            }).addTo(mapInstance);
+
+            // You can customize the icon and popup for the current location marker
+          },
+          (error) => {
+            console.error("Error getting current location:", error);
+          }
+        );
       }
     }
 
@@ -54,11 +72,14 @@ const Map: React.FC<MapProps> = ({ timeline }) => {
       polylineRef.current = polyline;
     }
 
+    // Add markers from the timeline data
     timeline.forEach((dataPoint) => {
       const lat = parseFloat(dataPoint.lat);
       const lon = parseFloat(dataPoint.lon);
 
+      // Check if lat and lon are valid numbers
       if (!isNaN(lat) && !isNaN(lon)) {
+        // Create a custom icon with a local image
         const customIcon = L.divIcon({
           className: "custom-marker",
           html: `<div>${dataPoint.steps}</div>`,
@@ -66,6 +87,7 @@ const Map: React.FC<MapProps> = ({ timeline }) => {
           iconAnchor: [10, 10] as PointTuple,
         });
 
+        // Create the marker with the custom icon
         const marker = L.marker([lat, lon], { icon: customIcon }).addTo(
           mapRef.current!
         );
