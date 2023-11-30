@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import DashIcon from "components/icons/DashIcon";
 // chakra imports
@@ -12,7 +12,13 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName: string) => {
-    return location.pathname.includes(routeName);
+   const flag =
+     routeName.length === 0
+       ? location.pathname === "/admin/" && true
+       : location.pathname === "/admin/timeline"
+       ? true
+       : false;
+   return flag;
   };
 
   const createLinks = (routes: RoutesType[]) => {

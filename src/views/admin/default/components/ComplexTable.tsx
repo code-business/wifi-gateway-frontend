@@ -12,6 +12,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setDeviceId } from "utils/redux";
+import { Link } from "react-router-dom";
 
 type RowObj = {
   deviceName: string;
@@ -26,7 +27,6 @@ export default function ComplexTable(props: { tableData: any }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { tableData } = props;
-  console.log({ tableData });
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const defaultData = tableData;
   const columns = [
@@ -67,16 +67,13 @@ export default function ComplexTable(props: { tableData: any }) {
       ),
       cell: (info) => (
         <div className="flex items-center">
-          <button
+          <Link
+            to={`timeline`}
+            replace // Add the replace prop
             className="rounded-xl bg-blue-500 px-3 py-2 text-base font-medium text-white transition duration-200 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-400 dark:text-white dark:hover:bg-blue-300 dark:active:bg-blue-200"
-            onClick={() => {
-              const deviceId = info.row.original.deviceId;
-              dispatch(setDeviceId(deviceId));
-              navigate("admin/timeline");
-            }}
           >
             Timeline
-          </button>
+          </Link>
         </div>
       ),
     }),

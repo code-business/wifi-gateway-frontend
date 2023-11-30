@@ -23,7 +23,7 @@ const routes = [
   {
     name: "All Devices",
     layout: "/admin",
-    path: "default",
+    path: "",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },

@@ -78,10 +78,7 @@ export default function Admin(props: { [x: string]: any }) {
               <Routes>
                 {getRoutes(routes)}
 
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/default" replace />}
-                />
+                <Route path="/" element={<Navigate to="/admin/" />} />
                 <Route
                   path="/timeline"
                   element={<Navigate to="/admin/timeline" replace />}
