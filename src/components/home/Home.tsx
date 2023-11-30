@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import AllDevices from "../allDevices/AllDevices";
-import Settings from "../settings/Settings";
-import Timeline from "../timeline/Timeline";
 import { getDevices } from "../../utils/service";
+import AllDevices from "../allDevices/AllDevices";
+import Timeline from "../timeline/Timeline";
 
 interface SidebarTabProps {
   tabName: string;
@@ -98,12 +97,6 @@ const Home: React.FC = () => {
           collapsed={sidebarCollapsed}
         />
         <SidebarTab
-          tabName="Settings"
-          selected={selectedTab === "Settings"}
-          onClick={handleSidebarClick}
-          collapsed={sidebarCollapsed}
-        />
-        <SidebarTab
           tabName="Logout"
           selected={selectedTab === "Logout"}
           onClick={logout}
@@ -146,19 +139,18 @@ const Home: React.FC = () => {
         <div>
           {selectedTab === "Timeline" ? (
             <Timeline deviceId={deviceId} />
-          ) : selectedTab === "All Devices" ? (
-            <AllDevices
-              data={devices}
-              onClick={(id: string) => {
-                setSelectedTab("Timeline");
-                setDeviceId(id);
-              }}
-            />
           ) : (
-            <Settings />
+            selectedTab === "All Devices" && (
+              <AllDevices
+                data={devices}
+                onClick={(id: string) => {
+                  setSelectedTab("Timeline");
+                  setDeviceId(id);
+                }}
+              />
+            )
           )}
         </div>
-        {/* Add your main content components here */}
       </div>
     </div>
   );

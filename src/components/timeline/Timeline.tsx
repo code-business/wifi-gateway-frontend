@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TimelineType, getTimeline } from "../../utils/service";
+import Map from "../map/Map";
 
 interface TimelineProps {
   deviceId: string;
@@ -29,11 +30,20 @@ const Timeline: React.FC<TimelineProps> = ({ deviceId }) => {
     deviceId && fetchDeviceTimeline(deviceId);
   }, [deviceId]);
 
-  useEffect(() => {
-    console.log({ timeline });
-  }, [timeline]);
-
-  return <div>{timeline.toString()}</div>;
+  return (
+    <>
+      <div
+        style={{
+          borderColor: "red",
+          borderWidth: "2px",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Map timeline={timeline} />
+      </div>
+    </>
+  );
 };
 
 export default Timeline;
