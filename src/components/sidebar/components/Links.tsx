@@ -9,16 +9,19 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
   let location = useLocation();
 
   const { routes } = props;
-
+  let route = routes[0];
+  let moddedRoute = [];
+  moddedRoute.push(route);
+  console.log({ moddedRoute });
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName: string) => {
-   const flag =
-     routeName.length === 0
-       ? location.pathname === "/admin/" && true
-       : location.pathname === "/admin/timeline"
-       ? true
-       : false;
-   return flag;
+    const flag =
+      routeName.length === 0
+        ? location.pathname === "/admin/" && true
+        : location.pathname === "/admin/timeline"
+        ? true
+        : false;
+    return flag;
   };
 
   const createLinks = (routes: RoutesType[]) => {
@@ -54,9 +57,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
                   {route.name}
                 </p>
               </li>
-              {activeRoute(route.path) ? (
-                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500 dark:bg-brand-400" />
-              ) : null}
+              <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500 dark:bg-brand-400" />
             </div>
           </Link>
         );
@@ -64,7 +65,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
     });
   };
   // BRAND
-  return <>{createLinks(routes)}</>;
+  return <>{createLinks(moddedRoute)}</>;
 };
 
 export default SidebarLinks;

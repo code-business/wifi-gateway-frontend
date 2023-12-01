@@ -22,3 +22,8 @@ export const getTimeline = async (deviceId: string) => {
   );
   return data.data;
 };
+
+export const findDevices = async (input: string) => {
+  const data = await customAxios.post("/devices/find", { input });
+  return data;
+};

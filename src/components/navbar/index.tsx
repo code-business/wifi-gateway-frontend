@@ -1,16 +1,10 @@
-import React from "react";
-import Dropdown from "components/dropdown";
-import { FiAlignJustify } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import navbarimage from "assets/img/layout/Navbar.png";
-import { BsArrowBarUp } from "react-icons/bs";
-import { FiSearch } from "react-icons/fi";
-import { RiMoonFill, RiSunFill } from "react-icons/ri";
-import {
-  IoMdNotificationsOutline,
-  IoMdInformationCircleOutline,
-} from "react-icons/io";
 import avatar from "assets/img/avatars/avatar4.png";
+import Dropdown from "components/dropdown";
+import React, { useEffect, useState } from "react";
+import { FiAlignJustify, FiSearch } from "react-icons/fi";
+import { RiMoonFill, RiSunFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import { findDevices } from "utils/service";
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
@@ -19,6 +13,27 @@ const Navbar = (props: {
 }) => {
   const { onOpenSidenav, brandText } = props;
   const [darkmode, setDarkmode] = React.useState(false);
+  const [input, setInput] = useState("");
+  const [response, setResponse] = useState("");
+  const [devices, setDevices] = useState([]);
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setInput(e.target.value);
+      if (input.length > 0) {
+        const res = await findDevices(input);
+        res.status === 201 && setResponse("No Devices Found");
+        res.status === 200 && setDevices(res.data);
+      }
+    } catch (error) {
+      setResponse("No Devices Found");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log({ response, devices });
+  }, [response, devices]);
 
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
@@ -38,7 +53,9 @@ const Navbar = (props: {
             className="text-sm font-normal capitalize text-navy-700 hover:underline dark:text-white dark:hover:text-white"
             to="#"
           >
-            {brandText}
+            {brandText === "Timeline"
+              ? `All Devices / ${brandText}`
+              : "All Devices"}
           </Link>
         </div>
         <p className="shrink text-[33px] capitalize text-navy-700 dark:text-white">
@@ -57,8 +74,9 @@ const Navbar = (props: {
             <FiSearch className="h-4 w-4 text-gray-400 dark:text-white" />
           </p>
           <input
+            onChange={(e) => handleChange(e)}
             type="text"
-            placeholder="Search..."
+            placeholder="Search Device..."
             className="block h-full w-full rounded-full bg-lightPrimary text-sm font-medium text-navy-700 outline-none placeholder:!text-gray-400 dark:bg-navy-900 dark:text-white dark:placeholder:!text-white sm:w-fit"
           />
         </div>

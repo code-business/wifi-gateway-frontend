@@ -6,6 +6,10 @@ import Links from "./components/Links";
 import SidebarCard from "components/sidebar/componentsrtl/SidebarCard";
 import routes from "routes";
 
+const mainRoute = routes[0];
+
+console.log({ mainRoute });
+
 const Sidebar = (props: {
   open: boolean;
   onClose: React.MouseEventHandler<HTMLSpanElement>;
