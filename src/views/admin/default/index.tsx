@@ -34,7 +34,7 @@ const Dashboard = () => {
         <Widget
           icon={<MdDevices className="h-8 w-8" />}
           title={"Total Devices"}
-          subtitle={devices.length.toString() || "0"}
+          subtitle={(devices.length - 1).toString() || "0"}
         />
         {/* <Widget
           icon={<IoDocuments className="h-6 w-6" />}
@@ -90,8 +90,8 @@ const Dashboard = () => {
         {devices[0].deviceId.length > 0 ? (
           <ComplexTable tableData={devices} />
         ) : (
-          <div className="flex h-full w-full items-start justify-center pt-10 text-5xl text-gray-500 dark:text-gray-400">
-            No Data Found
+          <div className="flex h-full w-full items-start justify-start pt-10 text-4xl text-gray-500 dark:text-gray-400">
+            No Devices Found
           </div>
         )}
 
