@@ -27,14 +27,14 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex-">
       {/* Card widget */}
 
       <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
         <Widget
           icon={<MdBarChart className="h-7 w-7" />}
           title={"Total Devices"}
-          subtitle={devices.length.toString() || "0"} //TODO Take from API
+          subtitle={devices.length.toString() || "0"}
         />
         {/* <Widget
           icon={<IoDocuments className="h-6 w-6" />}

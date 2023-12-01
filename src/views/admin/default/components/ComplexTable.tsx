@@ -20,6 +20,12 @@ type RowObj = {
   button: string;
 };
 
+interface CustomLinkProps {
+  to: string;
+  row: { original: { deviceId: string } };
+  children: React.ReactNode;
+}
+
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
@@ -29,6 +35,27 @@ export default function ComplexTable(props: { tableData: any }) {
   const { tableData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const defaultData = tableData;
+
+  const CustomLink: React.FC<CustomLinkProps> = ({ to, row, children }) => {
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+      const deviceId = row.original.deviceId;
+      // Dispatch the action to set the deviceId in Redux
+      dispatch(setDeviceId(deviceId));
+    };
+
+    return (
+      <Link
+        to={to}
+        replace
+        onClick={handleClick}
+        className="rounded-xl bg-blue-500 px-3 py-2 text-base font-medium text-white transition duration-200 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-400 dark:text-white dark:hover:bg-blue-300 dark:active:bg-blue-200"
+      >
+        {children}
+      </Link>
+    );
+  };
   const columns = [
     columnHelper.accessor("deviceName", {
       id: "deviceName",
@@ -66,15 +93,9 @@ export default function ComplexTable(props: { tableData: any }) {
         </p>
       ),
       cell: (info) => (
-        <div className="flex items-center">
-          <Link
-            to={`timeline`}
-            replace // Add the replace prop
-            className="rounded-xl bg-blue-500 px-3 py-2 text-base font-medium text-white transition duration-200 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-400 dark:text-white dark:hover:bg-blue-300 dark:active:bg-blue-200"
-          >
-            Timeline
-          </Link>
-        </div>
+        <CustomLink to={`timeline`} row={info.row}>
+          Timeline
+        </CustomLink>
       ),
     }),
   ];

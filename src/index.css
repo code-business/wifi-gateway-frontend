@@ -27,3 +27,45 @@ input.defaultCheckbox::before {
 input:checked.defaultCheckbox::before { 
 	opacity: 1;
 }
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #4f4f4f;
+	/* Change this to the color you want for the scrollbar thumb */
+	border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: #f1f1f1;
+	/* Change this to the color you want for the scrollbar track */
+}
+
+/* For Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #4f4f4f #f1f1f1;
+	/* Change these colors accordingly */
+}
+
+/* For Microsoft Edge */
+* {
+	-ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+	width: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #4f4f4f;
+	/* Change this to the color you want for the scrollbar thumb */
+	border-radius: 6px;
+}
+
+*::-webkit-scrollbar-track {
+	background-color: #f1f1f1;
+	/* Change this to the color you want for the scrollbar track */
+}

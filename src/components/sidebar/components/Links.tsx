@@ -12,7 +12,6 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
   let route = routes[0];
   let moddedRoute = [];
   moddedRoute.push(route);
-  console.log({ moddedRoute });
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName: string) => {
     const flag =
