@@ -22,7 +22,7 @@ const Tables: React.FC = () => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state: TimelineProps) => state.deviceId);
   const [calendar, setCalendar] = useState(false);
-  const [date, setDate] = useState(new Date().toISOString());
+  const [date, setDate] = useState(null);
 
   const [timeline, setTimeline] = useState<[TimelineType]>([
     {
@@ -48,6 +48,7 @@ const Tables: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("timeline :>> ", timeline);
     deviceId.length > 0 && date && fetchDeviceTimeline(deviceId, date);
   }, [deviceId, date]);
 
@@ -64,7 +65,7 @@ const Tables: React.FC = () => {
                 Device:{" "}
               </p>
               <h4 className="text-xl font-bold text-navy-700 dark:text-white">
-                {deviceId}
+                {deviceId.length > 0 ? deviceId : "No Device Found"}
               </h4>
             </div>
           </div>
@@ -74,11 +75,13 @@ const Tables: React.FC = () => {
             className="flex items-center gap-4"
           >
             <span className="text-xl font-bold text-navy-700 dark:text-white">
-              {new Date(date).toLocaleDateString(undefined, {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
+              {date
+                ? new Date(date).toLocaleDateString(undefined, {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
+                : "Select Date from Calendar"}
             </span>
             <MdCalendarToday className="h-10 w-10 text-brand-500 dark:text-white" />
           </button>

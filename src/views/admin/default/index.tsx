@@ -87,7 +87,13 @@ const Dashboard = () => {
 
         {/* Complex Table , Task & Calendar */}
 
-        <ComplexTable tableData={devices} />
+        {devices[0].deviceId.length > 0 ? (
+          <ComplexTable tableData={devices} />
+        ) : (
+          <div className="flex h-full w-full items-start justify-center pt-10 text-5xl text-gray-500 dark:text-gray-400">
+            No Data Found
+          </div>
+        )}
 
         {/* Task chart & Calendar */}
 

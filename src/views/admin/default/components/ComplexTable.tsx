@@ -41,7 +41,6 @@ export default function ComplexTable(props: { tableData: any }) {
 
     const handleClick = () => {
       const deviceId = row.original.deviceId;
-      // Dispatch the action to set the deviceId in Redux
       dispatch(setDeviceId(deviceId));
     };
 
@@ -50,7 +49,9 @@ export default function ComplexTable(props: { tableData: any }) {
         to={to}
         replace
         onClick={handleClick}
-        className="rounded-xl bg-blue-500 px-3 py-2 text-base font-medium text-white transition duration-200 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-400 dark:text-white dark:hover:bg-blue-300 dark:active:bg-blue-200"
+        className={
+          "rounded-xl bg-blue-500 px-3 py-2 text-base font-medium text-white transition duration-200 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-400 dark:text-white dark:hover:bg-blue-300 dark:active:bg-blue-200"
+        }
       >
         {children}
       </Link>
@@ -66,7 +67,7 @@ export default function ComplexTable(props: { tableData: any }) {
       ),
       cell: (info) => (
         <p className="text-sm font-bold text-navy-700 dark:text-white">
-          {info.getValue()}
+          {info.getValue() ? info.getValue() : "No Devices"}
         </p>
       ),
     }),
@@ -80,7 +81,7 @@ export default function ComplexTable(props: { tableData: any }) {
       cell: (info) => (
         <div className="flex items-center">
           <p className="text-sm font-bold text-navy-700 dark:text-white">
-            {info.getValue()}
+            {info.getValue() ? info.getValue() : "No Devices"}
           </p>
         </div>
       ),
