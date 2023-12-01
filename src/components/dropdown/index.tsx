@@ -32,7 +32,7 @@ const Dropdown = (props: {
   useOutsideAlerter(wrapperRef, setOpenWrapper);
 
   return (
-    <div ref={wrapperRef} className="relative flex">
+    <div ref={wrapperRef} className={"relative flex"}>
       <div className="flex" onMouseDown={() => setOpenWrapper(!openWrapper)}>
         {button}
       </div>

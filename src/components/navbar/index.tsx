@@ -1,9 +1,11 @@
 import avatar from "assets/img/avatars/avatar4.png";
 import Dropdown from "components/dropdown";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FiAlignJustify, FiSearch } from "react-icons/fi";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { setDeviceId } from "utils/redux";
 import { findDevices } from "utils/service";
 
 const Navbar = (props: {
@@ -16,14 +18,22 @@ const Navbar = (props: {
   const [input, setInput] = useState("");
   const [response, setResponse] = useState("");
   const [devices, setDevices] = useState([]);
+  const dispatch = useDispatch();
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       setInput(e.target.value);
       if (input.length > 0) {
+        setResponse("Searching Device");
         const res = await findDevices(input);
-        res.status === 201 && setResponse("No Devices Found");
-        res.status === 200 && setDevices(res.data);
+
+        if (res.status === 200) {
+          setDevices(res.data);
+          setResponse("Device Found");
+        } else {
+          setResponse("No Device Found.");
+          setDevices([]);
+        }
       }
     } catch (error) {
       setResponse("No Devices Found");
@@ -31,9 +41,10 @@ const Navbar = (props: {
     }
   };
 
-  useEffect(() => {
-    console.log({ response, devices });
-  }, [response, devices]);
+  const handleClick = (device: string) => {
+    dispatch(setDeviceId(device));
+    window.location.reload();
+  };
 
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
@@ -73,11 +84,37 @@ const Navbar = (props: {
           <p className="pl-3 pr-2 text-xl">
             <FiSearch className="h-4 w-4 text-gray-400 dark:text-white" />
           </p>
-          <input
-            onChange={(e) => handleChange(e)}
-            type="text"
-            placeholder="Search Device..."
-            className="block h-full w-full rounded-full bg-lightPrimary text-sm font-medium text-navy-700 outline-none placeholder:!text-gray-400 dark:bg-navy-900 dark:text-white dark:placeholder:!text-white sm:w-fit"
+          <Dropdown
+            button={
+              <input
+                onChange={(e) => handleChange(e)}
+                type="text"
+                placeholder="Search Device..."
+                className="block h-full w-full rounded-full bg-lightPrimary text-sm font-medium text-navy-700 outline-none placeholder:!text-gray-400 dark:bg-navy-900 dark:text-white dark:placeholder:!text-white sm:w-fit"
+              />
+            }
+            children={
+              <div
+                className={
+                  "h-100p flex w-52 flex-col justify-start rounded-[10px] bg-white bg-cover bg-no-repeat p-4 align-middle shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none"
+                }
+              >
+                <p>{input.length > 0 ? response : `Enter DeviceID`}</p>
+                {devices.length > 0 &&
+                  devices.map((d, index) => {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handleClick(d.deviceId)}
+                        className="hover:text-black rounded-md p-2 transition-all duration-300 hover:bg-gray-200"
+                      >
+                        {d.deviceId}
+                      </button>
+                    );
+                  })}
+              </div>
+            }
+            classNames={"py-2 top-10 -left-[58px] w-max"}
           />
         </div>
         <span
@@ -207,7 +244,7 @@ const Navbar = (props: {
             />
           }
           children={
-            <div className="flex h-48 w-56 flex-col justify-start rounded-[20px] bg-white bg-cover bg-no-repeat shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none">
+            <div className="flex h-32 w-56 flex-col justify-start rounded-[20px] bg-white bg-cover bg-no-repeat shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none">
               <div className="ml-4 mt-3">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
@@ -218,18 +255,6 @@ const Navbar = (props: {
               <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
 
               <div className="ml-4 mt-3 flex flex-col">
-                <a
-                  href=" "
-                  className="text-sm text-gray-800 dark:text-white hover:dark:text-white"
-                >
-                  Profile Settings
-                </a>
-                <a
-                  href=" "
-                  className="mt-3 text-sm text-gray-800 dark:text-white hover:dark:text-white"
-                >
-                  Newsletter Settings
-                </a>
                 <a
                   href=" "
                   className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
