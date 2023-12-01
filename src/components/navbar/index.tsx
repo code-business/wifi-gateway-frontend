@@ -1,4 +1,5 @@
 import avatar from "assets/img/avatars/avatar4.png";
+
 import Dropdown from "components/dropdown";
 import React, { useState } from "react";
 import { FiAlignJustify, FiSearch } from "react-icons/fi";
@@ -241,6 +242,7 @@ const Navbar = (props: {
               className="h-10 w-10 rounded-full"
               src={avatar}
               alt="Elon Musk"
+              style={{ cursor: "pointer" }}
             />
           }
           children={

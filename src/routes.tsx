@@ -17,6 +17,8 @@ import {
   MdBarChart,
   MdPerson,
   MdLock,
+  MdDevices,
+  MdDevicesOther,
 } from "react-icons/md";
 
 const routes = [
@@ -24,7 +26,7 @@ const routes = [
     name: "All Devices",
     layout: "/admin",
     path: "",
-    icon: <MdHome className="h-6 w-6" />,
+    icon: <MdDevicesOther className="h-6 w-6" />,
     component: <MainDashboard />,
   },
   {
