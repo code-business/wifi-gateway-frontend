@@ -16,9 +16,9 @@ export interface TimelineType {
   steps: string;
 }
 
-export const getTimeline = async (deviceId: string) => {
+export const getTimeline = async (deviceId: string, date: string) => {
   const data: { data: [TimelineType] } = await customAxios.get(
-    `/timeline/${deviceId}`
+    `/timeline/${deviceId}/${date}`
   );
   return data.data;
 };

@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import Card from "components/card";
 import "react-calendar/dist/Calendar.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import "assets/css/MiniCalendar.css";
 
-const MiniCalendar = () => {
+interface CalendarProps {
+  func?: (value: string) => void;
+}
+
+const MiniCalendar: React.FC<CalendarProps> = ({ func }) => {
   const [value, onChange] = useState(new Date());
+
+  useEffect(() => {
+    func(value.toISOString());
+  }, [value]);
 
   return (
     <div>
