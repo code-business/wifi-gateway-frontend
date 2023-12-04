@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const customAxios = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: "http://3.109.48.85:8080/api/",
+  // baseURL:
+  //   "http://wifi-gateway-api-bbb80304da7b2f7b.elb.ap-south-1.amazonaws.com/api/",
   headers: {
     "Content-Type": "application/json",
     // Add any other headers if needed
