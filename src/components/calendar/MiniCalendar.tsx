@@ -1,9 +1,11 @@
+import "assets/css/MiniCalendar.css";
+import Card from "components/card";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
-import Card from "components/card";
 import "react-calendar/dist/Calendar.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import "assets/css/MiniCalendar.css";
+import { useDispatch } from "react-redux";
+import { setCalendar } from "utils/redux";
 
 interface CalendarProps {
   func?: (value: string) => void;
@@ -11,9 +13,11 @@ interface CalendarProps {
 
 const MiniCalendar: React.FC<CalendarProps> = ({ func }) => {
   const [value, onChange] = useState(new Date());
+  const dispatch = useDispatch();
 
   useEffect(() => {
     func(value.toISOString());
+    dispatch(setCalendar());
   }, [value]);
 
   return (

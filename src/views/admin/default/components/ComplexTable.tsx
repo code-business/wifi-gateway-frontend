@@ -30,11 +30,8 @@ const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
 export default function ComplexTable(props: { tableData: any }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { tableData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const defaultData = tableData;
 
   const CustomLink: React.FC<CustomLinkProps> = ({ to, row, children }) => {
     const dispatch = useDispatch();

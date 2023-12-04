@@ -17,10 +17,8 @@ export interface TimelineType {
 }
 
 export const getTimeline = async (deviceId: string, date: string) => {
-  const data: { data: [TimelineType] } = await customAxios.get(
-    `/timeline/${deviceId}/${date}`
-  );
-  return data.data;
+  const data = await customAxios.get(`/timeline/${deviceId}/${date}`);
+  return data;
 };
 
 export const findDevices = async (input: string) => {

@@ -8,6 +8,7 @@ const authSlice = createSlice({
     deviceId: "Find Your Device",
     username: null,
     timeline: [],
+    calendar: false,
   },
   reducers: {
     setDeviceId: (state, action) => {
@@ -24,6 +25,9 @@ const authSlice = createSlice({
       state.username = null;
       state.timeline = [];
     },
+    setCalendar: (state) => {
+      state.calendar = !state.calendar;
+    },
   },
 });
 
@@ -33,7 +37,8 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, authSlice.reducer);
-export const { setDeviceId, logout, setUsername } = authSlice.actions;
+export const { setDeviceId, logout, setUsername, setCalendar } =
+  authSlice.actions;
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>

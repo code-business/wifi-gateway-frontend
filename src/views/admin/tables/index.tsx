@@ -1,27 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Map from "../default/components/Map";
-import { TimelineType, getTimeline } from "utils/service";
-import { setDeviceId } from "utils/redux";
-import Widget from "components/widget/Widget";
-import {
-  MdCalendarToday,
-  MdDashboard,
-  MdDevicesOther,
-  MdMap,
-} from "react-icons/md";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import Card from "components/card";
+import { MdCalendarToday, MdMap } from "react-icons/md";
+import { setDeviceId } from "utils/redux";
+import { TimelineType, getTimeline } from "utils/service";
+import Map from "../default/components/Map";
 
 interface TimelineProps {
   deviceId: string;
 }
 
+type RootState = {
+  calendar: boolean;
+};
+
 const Tables: React.FC = () => {
-  const dispatch = useDispatch();
   const deviceId = useSelector((state: TimelineProps) => state.deviceId);
-  const [calendar, setCalendar] = useState(false);
+  const calendar = useSelector((state: RootState) => state.calendar);
+  const [openCalendar, setOpenCalendar] = useState(false);
   const [date, setDate] = useState(null);
 
   const [timeline, setTimeline] = useState<[TimelineType]>([
@@ -35,22 +33,38 @@ const Tables: React.FC = () => {
 
   const fetchDeviceTimeline = async (deviceId: string, date: string) => {
     try {
-      const data: [TimelineType] = await getTimeline(deviceId, date);
-      dispatch(setDeviceId(deviceId));
+      const res = await getTimeline(deviceId, date);
+      const data: [TimelineType] = res.data;
       setTimeline(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDateChange = async (value: any) => {
-    setDate(value);
+  const handleDateChange: (value: any) => void = (value: any) => {
+    const valueDate = new Date(value);
+    const dateDate = new Date(date);
+    if (valueDate.getTime() === dateDate.getTime()) {
+      console.log("The value and date are the same.");
+    } else {
+      setDate(value);
+      console.log("The value and date are different.");
+    }
   };
 
   useEffect(() => {
-    console.log("timeline :>> ", timeline);
-    deviceId.length > 0 && date && fetchDeviceTimeline(deviceId, date);
+    if (deviceId.length > 0 && date) {
+      fetchDeviceTimeline(deviceId, date);
+    }
   }, [deviceId, date]);
+
+  useEffect(() => {
+    setOpenCalendar(false);
+  }, []);
+
+  useEffect(() => {
+    setOpenCalendar(calendar);
+  }, [calendar]);
 
   return (
     <div className="relative flex h-screen flex-col p-2">
@@ -69,9 +83,9 @@ const Tables: React.FC = () => {
               </h4>
             </div>
           </div>
-          {/* <MiniCalendar /> */}
+
           <button
-            onClick={() => setCalendar(!calendar)}
+            onClick={() => setOpenCalendar(!openCalendar)}
             className="flex items-center gap-4"
           >
             <span className="text-xl font-bold text-navy-700 dark:text-white">
@@ -87,7 +101,7 @@ const Tables: React.FC = () => {
           </button>
         </div>
       </Card>
-      {calendar && (
+      {openCalendar && (
         <div className="absolute right-72 top-4  z-10">
           <MiniCalendar func={handleDateChange} />
         </div>
